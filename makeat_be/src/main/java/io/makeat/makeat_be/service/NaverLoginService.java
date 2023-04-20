@@ -1,7 +1,6 @@
 package io.makeat.makeat_be.service;
 
 // 네이버 API 예제 - 회원프로필 조회
-import lombok.extern.slf4j.Slf4j;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -15,7 +14,7 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
-@Slf4j
+
 @Service
 public class NaverLoginService {
 
@@ -27,17 +26,17 @@ public class NaverLoginService {
 
 
     /**
-     * json 응답 파싱해서 액세스 토큰 반환
+     * json 응답 파싱해서 액세스,리프레쉬 토큰 반환
      * @param code
-     * @return String tokens
+     * @return String[] tokens
      */
-    public String getToken(String code) throws IOException {
+    public String[] getToken(String code) throws IOException {
 
         // 인가코드로 토큰받기
         String host = "https://nid.naver.com/oauth2.0/token";
         URL url = new URL(host);
+        String[] tokens = {"", ""};
         HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-        String token = null;
         try {
             urlConnection.setRequestMethod("POST");
             urlConnection.setDoOutput(true); // 데이터 기록 알려주기
@@ -52,7 +51,7 @@ public class NaverLoginService {
             bw.flush();
 
             int responseCode = urlConnection.getResponseCode();
-            log.debug("responseCode = " + responseCode);
+            System.out.println("responseCode = " + responseCode);
 
             BufferedReader br = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
             String line = "";
@@ -60,14 +59,18 @@ public class NaverLoginService {
             while ((line = br.readLine()) != null) {
                 result += line;
             }
-            log.debug("result = " + result);
+            System.out.println("result = " + result);
 
             // json parsing
             JSONParser parser = new JSONParser();
             JSONObject elem = (JSONObject) parser.parse(result);
 
-            token = elem.get("access_token").toString();
-            log.debug("access_token = " + token);
+            String access_token = elem.get("access_token").toString();
+            String refresh_token = elem.get("refresh_token").toString();
+            tokens[0] = access_token;
+            tokens[1] = refresh_token;
+            System.out.println("refresh_token = " + refresh_token);
+            System.out.println("access_token = " + access_token);
 
             br.close();
             bw.close();
@@ -76,15 +79,9 @@ public class NaverLoginService {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        return token;
+        return tokens;
     }
 
-    /**
-     *
-     * @param apiUrl
-     * @param requestHeaders
-     * @return
-     */
     public static String getApi(String apiUrl, Map<String, String> requestHeaders){
         HttpURLConnection con = connect(apiUrl);
         try {
