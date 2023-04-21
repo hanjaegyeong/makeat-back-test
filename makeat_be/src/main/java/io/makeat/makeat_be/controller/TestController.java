@@ -7,9 +7,15 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class TestController {
 
     //테스트용
-    @GetMapping("/do")
+    @GetMapping("/test/do")
     public String loginPage()
     {
         return "login";
+    }
+
+    @GetMapping("/test/token")
+    public String tokenPage()
+    {
+        return "token";
     }
 }
