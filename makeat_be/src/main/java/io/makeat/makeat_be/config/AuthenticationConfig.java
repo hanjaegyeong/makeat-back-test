@@ -1,42 +1,43 @@
-package io.makeat.makeat_be.config;
-
-
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
-import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-
-
-@Configuration
-@EnableWebSecurity
-public class AuthenticationConfig {
-
-    @Bean
-    public JwtFilter jwtFilter() {
-        return new JwtFilter();
-    }
-
-    @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity, JwtFilter jwtFilter) throws Exception {
-
-        httpSecurity
-                .httpBasic().disable()
-                .csrf().disable()
-                .cors().and()
-                .authorizeHttpRequests(
-                        authorize -> authorize
-                                .requestMatchers("test/do","test/token", "/user/naver", "/user/kakao").permitAll()
-                                .anyRequest().authenticated()
-                )
-                .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS); // jwt 사용하는 경우에 씀
-//                .and()
-//                .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
-
-        return httpSecurity.build();
-    }
-}
+//package io.makeat.makeat_be.config;
+//
+//
+//import io.makeat.makeat_be.service.UserService;
+//import lombok.RequiredArgsConstructor;
+//import org.springframework.beans.factory.annotation.Value;
+//import org.springframework.context.annotation.Bean;
+//import org.springframework.context.annotation.Configuration;
+//import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+//import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+//import org.springframework.security.config.http.SessionCreationPolicy;
+//import org.springframework.security.web.SecurityFilterChain;
+//import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+//
+//
+//@Configuration
+//@EnableWebSecurity
+//@RequiredArgsConstructor
+//public class AuthenticationConfig {
+//
+//    private final UserService userService;
+//
+//    @Value("${jwt.secret}")
+//    private String secret;
+//
+//    @Bean
+//    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+//        http
+//                .httpBasic().disable()  // http basic 사용 안함
+//                .csrf().disable()   // csrf 사용 안함
+//                .cors().and()       // cors 사용 안함
+//                .authorizeHttpRequests(
+//                        auth ->auth
+//                                .requestMatchers("/user/kakao", "/user/naver").permitAll()  // 해당 url은 인증 안함
+//                                .anyRequest().authenticated()   // 나머지는 다 인증
+//
+//                )
+//                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) //jwt 토큰으로 인증하므로 세션 사용 안함
+//                .and().addFilterBefore(new JwtFilter(userService, secret), UsernamePasswordAuthenticationFilter.class);
+//
+//        return http.build();
+//    }
+//}

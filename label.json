@@ -1,0 +1,58 @@
+[
+  {
+    "name": "Status: New",
+    "color": "ffffff",
+  },
+  {
+    "name": "Status: Backlog",
+    "color": "ffffff",
+  },
+  {
+    "name": "Status: Todo",
+    "color": "ffffff",
+  },
+  {
+    "name": "Status: In Progress",
+    "color": "ffffff",
+  },
+  {
+    "name": "Status: In Review",
+    "color": "ffffff",
+  },
+  {
+    "name": "Status: Done",
+    "color": "ffffff",
+  },
+  {
+    "name": "Type: Bug",
+    "color": "ff0000",
+  },
+  {
+    "name": "Type: Hotfix",
+    "color": "8a0808",
+  },
+  {
+    "name": "Type: Document",
+    "color": "81f7f3",
+  },
+  {
+    "name": "Type: Feature",
+    "color": "2e64fe",
+  },
+  {
+    "name": "Type: UI",
+    "color": "fe9a2e",
+  },
+  {
+    "name": "Type: Release",
+    "color": "fe2ef7",
+  },
+  {
+    "name": "Type: Test",
+    "color": "01df01",
+  },
+  {
+    "name": "Type: Wontfix",
+    "color": "D4C5F9",
+  },
+]

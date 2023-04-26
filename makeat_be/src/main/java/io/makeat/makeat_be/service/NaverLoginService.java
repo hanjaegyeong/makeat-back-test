@@ -1,11 +1,13 @@
 package io.makeat.makeat_be.service;
 
 // 네이버 API 예제 - 회원프로필 조회
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
+
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
 
 import java.io.*;
 import java.net.HttpURLConnection;
@@ -14,7 +16,7 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
-
+@Slf4j
 @Service
 public class NaverLoginService {
 
@@ -26,16 +28,16 @@ public class NaverLoginService {
 
 
     /**
-     * json 응답 파싱해서 액세스,리프레쉬 토큰 반환
+     * 인가코드로 토큰 반환
      * @param code
-     * @return String[] tokens
+     * @return
+     * @throws IOException
      */
-    public String[] getToken(String code) throws IOException {
+    public String getToken(String code) throws IOException {
 
-        // 인가코드로 토큰받기
         String host = "https://nid.naver.com/oauth2.0/token";
         URL url = new URL(host);
-        String[] tokens = {"", ""};
+        String token = "";
         HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
         try {
             urlConnection.setRequestMethod("POST");
@@ -51,7 +53,7 @@ public class NaverLoginService {
             bw.flush();
 
             int responseCode = urlConnection.getResponseCode();
-            System.out.println("responseCode = " + responseCode);
+            log.info("responseCode = " + responseCode);
 
             BufferedReader br = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
             String line = "";
@@ -59,18 +61,14 @@ public class NaverLoginService {
             while ((line = br.readLine()) != null) {
                 result += line;
             }
-            System.out.println("result = " + result);
+            log.info("result = " + result);
 
             // json parsing
             JSONParser parser = new JSONParser();
             JSONObject elem = (JSONObject) parser.parse(result);
 
-            String access_token = elem.get("access_token").toString();
-            String refresh_token = elem.get("refresh_token").toString();
-            tokens[0] = access_token;
-            tokens[1] = refresh_token;
-            System.out.println("refresh_token = " + refresh_token);
-            System.out.println("access_token = " + access_token);
+            token = elem.get("token").toString();
+            log.info("access_token = " + token);
 
             br.close();
             bw.close();
@@ -79,10 +77,48 @@ public class NaverLoginService {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        return tokens;
+        return token;
     }
 
+    /**
+     * 토큰으로 유저정보 파싱해서 반환
+     * @param token
+     * @return
+     * @throws ParseException
+     */
+    public Map<String, Object> getUserInfo(String token) throws ParseException {
+
+        Map<String, Object> result = new HashMap<>();
+
+        String header = "Bearer " + token; // Bearer 다음에 공백 추가
+        String apiURL = "https://openapi.naver.com/v1/nid/me";
+
+        Map<String, String> requestHeaders = new HashMap<>();
+        requestHeaders.put("Authorization", header);
+
+        JSONParser jsonParser = new JSONParser();
+        JSONObject jsonObj = (JSONObject) jsonParser.parse(getApi(apiURL,requestHeaders));
+        JSONObject response = (JSONObject) jsonObj.get("response");
+
+        String id = response.get("id").toString();
+        String name = response.get("name").toString();
+        String gender = response.get("gender").toString();
+
+        result.put("id", id);
+        result.put("nickname", name);
+        result.put("gender", gender);
+
+        return result;
+    }
+
+    /**
+     * Api 접근해서 Body정보 반환
+     * @param apiUrl
+     * @param requestHeaders
+     * @return
+     */
     public static String getApi(String apiUrl, Map<String, String> requestHeaders){
+
         HttpURLConnection con = connect(apiUrl);
         try {
             con.setRequestMethod("GET");
@@ -103,6 +139,11 @@ public class NaverLoginService {
         }
     }
 
+    /**
+     * API 연결
+     * @param apiUrl
+     * @return
+     */
     private static HttpURLConnection connect(String apiUrl){
         try {
             URL url = new URL(apiUrl);
@@ -114,27 +155,27 @@ public class NaverLoginService {
         }
     }
 
-
+    /**
+     * body 정보 반환
+     * @param body
+     * @return
+     */
     private static String readBody(InputStream body){
         InputStreamReader streamReader = new InputStreamReader(body);
 
-
         try (BufferedReader lineReader = new BufferedReader(streamReader)) {
             StringBuilder responseBody = new StringBuilder();
-
 
             String line;
             while ((line = lineReader.readLine()) != null) {
                 responseBody.append(line);
             }
 
-
             return responseBody.toString();
         } catch (IOException e) {
             throw new RuntimeException("API 응답을 읽는데 실패했습니다.", e);
         }
     }
-
 }
 
 
