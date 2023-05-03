@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="3d3cd4f6-1233-4637-9597-7bae1c6a1e4c" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/makeat_be/gradle/wrapper/gradle-wrapper.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/makeat_be/gradle/wrapper/gradle-wrapper.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/makeat_be/keystore.p12" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/makeat_be/src/main/java/io/makeat/makeat_be/MakeatBeApplication.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/makeat_be/src/main/java/io/makeat/makeat_be/config/AuthenticationConfig.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/makeat_be/src/main/java/io/makeat/makeat_be/config/JwtFilter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/makeat_be/src/main/java/io/makeat/makeat_be/controller/UserController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/makeat_be/src/main/java/io/makeat/makeat_be/dto/UserInfoDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/makeat_be/src/main/java/io/makeat/makeat_be/entity/User.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/makeat_be/src/main/java/io/makeat/makeat_be/entity/UserInfo.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/makeat_be/src/main/java/io/makeat/makeat_be/repository/UserInfoRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/makeat_be/src/main/java/io/makeat/makeat_be/repository/UserRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/makeat_be/src/main/java/io/makeat/makeat_be/service/AuthenticationService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/makeat_be/src/main/java/io/makeat/makeat_be/service/KakaoLoginService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/makeat_be/src/main/java/io/makeat/makeat_be/service/NaverLoginService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/makeat_be/src/main/java/io/makeat/makeat_be/service/UserService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/makeat_be/src/main/java/io/makeat/makeat_be/utils/JwtUtil.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/makeat_be/src/main/resources/application.yml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/makeat_be/src/main/resources/static/images/kakao_login_medium_narrow.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/makeat_be/src/main/resources/templates/login.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/makeat_be/src/test/java/io/makeat/makeat_be/MakeatBeApplicationTests.java" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectId" id="2PHifrRQDeHcOixZ2FE0aDePtqc" />
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "last_opened_file_path": "C:/Users/hjg/Desktop/makeat-back-test"
+  }
+}]]></component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="3d3cd4f6-1233-4637-9597-7bae1c6a1e4c" name="Changes" comment="" />
+      <created>1683120513914</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1683120513914</updated>
+      <workItem from="1683120516207" duration="1000" />
+    </task>
+    <servers />
+  </component>
+</project>
