@@ -14,21 +14,28 @@ spring:
         use_sql_comments: true
 
 jwt:
-  secret: universe.ultra.special.cookie0010
+  secret: ${jwtSecret}
 
 kakao:
-  client_id: 0658266bd27dd7c683f32dc7aecb3faf
-  redirect_url: http://localhost:8080/user/kakao
+  client_id: ${kakaoClientId}
+  redirect_url: ${kakaoRedirectUrl}
 
 naver:
-  client_id: DrQR_W4Xbc77w5QsAX6M
-  secret_id: Hp7DGQH1Sa
+  client_id: ${naverClientId}
+  secret_id: ${naverSecretId}
 
 
 logging:
   level:
     org.hibernate.sql: debug
-#
+
+aws:
+  access-key:
+  secret-key:
+  s3:
+    region:
+    bucket:
+
 #server:
 #  port: 8080
 #  ssl:

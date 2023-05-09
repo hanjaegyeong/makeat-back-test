@@ -8,6 +8,7 @@ import io.makeat.makeat_be.repository.UserRepository;
 import io.makeat.makeat_be.service.KakaoLoginService;
 import io.makeat.makeat_be.service.NaverLoginService;
 import io.makeat.makeat_be.service.UserService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,25 +25,15 @@ import java.util.Optional;
 
 @Slf4j
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/v1/user")
+@RequiredArgsConstructor
 public class UserController {
-    /**
-     *
-     * 프로트에서 카카오 인가코드를 /user/kakao 링크로 get 요청
-     * -> 백에서 받아서 카카오 로그인 서버로 토큰 요청 -> 카카오 로그인 서버에서 토큰 반환
-     * -> 토큰으로 카카오 로그인 서버에서 유저 정보 요청 -> 카카오 로그인 서버에서 유저 정보 반환
-     * -> 유저 정보를 받아서 우리 서버로 유저 정보 요청 -> 우리 서버에서 유저 정보 반환 -> 유저 정보를 받아서 프론트로 유저 정보 반환
-     *
-     */
 
     @Autowired
-    KakaoLoginService ks;
+    private final KakaoLoginService ks;
+    private final NaverLoginService ns;
+    private final UserService userService;
 
-    @Autowired
-    NaverLoginService ns;
-
-    @Autowired
-    UserService userService;
 
     @GetMapping("/kakao")
     public ResponseEntity getKakaoCI(@RequestParam String code) throws IOException{
@@ -51,21 +42,20 @@ public class UserController {
         String token = ks.getToken(code);
         Map<String, Object> userInfo = ks.getUserInfo(token);
 
-
         // user 확인 및 신규 유저 저장
-        Optional<User> user = userService.login("kakao", userInfo.get("id").toString());
-        if (user.isEmpty()) {
+        User user = userService.login("kakao", userInfo.get("id").toString());
+        if (user==null) {
             return new ResponseEntity(null, null, HttpStatus.BAD_REQUEST);
         }
 
         // jwt 생성
-        String accessJwt = userService.createJwt(user.get().getUserId().toString());
+        String accessJwt = userService.createJwt(String.valueOf(user.getUserId()));
 
         //헤더에 accessJwt 담기
         HttpHeaders headers = new HttpHeaders();
         headers.add("Authorization", "Bearer " + accessJwt);
 
-        UserInfoDto userInfoDto = userService.getUserInfo(user.get());
+        UserInfoDto userInfoDto = userService.getUserInfo(user);
 
         return new ResponseEntity(userInfoDto, headers, HttpStatus.OK);
     }
@@ -78,19 +68,19 @@ public class UserController {
         Map<String, Object> userInfo = ns.getUserInfo(token);
 
         // user 확인 및 신규 유저 저장
-        Optional<User> user = userService.login("kakao", userInfo.get("id").toString());
-        if (user.isEmpty()) {
+        User user = userService.login("naver", userInfo.get("id").toString());
+        if (user==null) {
             return new ResponseEntity(null, null, HttpStatus.BAD_REQUEST);
         }
 
         // jwt 생성
-        String accessJwt = userService.createJwt(user.get().getUserId().toString());
+        String accessJwt = userService.createJwt(String.valueOf(user.getUserId()));
 
         //헤더에 accessJwt 담기
         HttpHeaders headers = new HttpHeaders();
         headers.add("Authorization", "Bearer " + accessJwt);
 
-        UserInfoDto userInfoDto = userService.getUserInfo(user.get());
+        UserInfoDto userInfoDto = userService.getUserInfo(user);
 
         return new ResponseEntity(userInfoDto, headers, HttpStatus.OK);
     }

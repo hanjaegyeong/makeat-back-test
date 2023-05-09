@@ -1,6 +1,5 @@
 package io.makeat.makeat_be.service;
 
-// 네이버 API 예제 - 회원프로필 조회
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -67,7 +66,7 @@ public class NaverLoginService {
             JSONParser parser = new JSONParser();
             JSONObject elem = (JSONObject) parser.parse(result);
 
-            token = elem.get("token").toString();
+            token = elem.get("access_token").toString();
             log.info("access_token = " + token);
 
             br.close();

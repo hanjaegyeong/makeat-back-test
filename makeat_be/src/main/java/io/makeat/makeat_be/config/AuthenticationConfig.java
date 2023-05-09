@@ -18,8 +18,6 @@
 //@RequiredArgsConstructor
 //public class AuthenticationConfig {
 //
-//    private final UserService userService;
-//
 //    @Value("${jwt.secret}")
 //    private String secret;
 //
@@ -31,12 +29,14 @@
 //                .cors().and()       // cors 사용 안함
 //                .authorizeHttpRequests(
 //                        auth ->auth
-//                                .requestMatchers("/user/kakao", "/user/naver").permitAll()  // 해당 url은 인증 안함
+//                                .requestMatchers("/**").permitAll()
+////                                .requestMatchers("/user/naver").permitAll()  // 해당 url은 인증 안함
+////                                .requestMatchers("/user/kakao").permitAll()
 //                                .anyRequest().authenticated()   // 나머지는 다 인증
 //
 //                )
 //                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) //jwt 토큰으로 인증하므로 세션 사용 안함
-//                .and().addFilterBefore(new JwtFilter(userService, secret), UsernamePasswordAuthenticationFilter.class);
+//                .and().addFilterBefore(new JwtFilter(secret), UsernamePasswordAuthenticationFilter.class);
 //
 //        return http.build();
 //    }

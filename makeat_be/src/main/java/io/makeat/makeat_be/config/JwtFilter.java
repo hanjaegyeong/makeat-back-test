@@ -27,7 +27,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class JwtFilter extends OncePerRequestFilter {
 
-    private final UserService userService;
+//    private final UserService userService;
     private final String secret;
 
     @Override
@@ -38,7 +38,7 @@ public class JwtFilter extends OncePerRequestFilter {
 
         // token 안보내면 block
         if (authorization == null || !authorization.startsWith("Bearer ")) {
-            log.error("authorization 이 없습니다.");
+            log.warn("authorization 이 없습니다.");
             filterChain.doFilter(request, response);
             return;
         }

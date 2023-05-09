@@ -46,6 +46,20 @@ public class JwtUtil {
 
         return accessToken;
     }
-    // 1. refresh token 생성.
-    // 2. 토큰을 들고 접근 시도.
+
+    // TODO: refresh token 생성
+    public static String createRefreshJwt(String userPk, String secret, Long expireMs) {
+
+        Claims claims = Jwts.claims().setSubject(userPk);
+
+        String refreshToken = Jwts.builder()
+                .setClaims(claims)
+                .setIssuedAt(new Date(System.currentTimeMillis()))
+                .setExpiration(new Date(System.currentTimeMillis() + expireMs))
+                .signWith(SignatureAlgorithm.HS256, getSecretKey(secret))
+                .compact();
+
+        return refreshToken;
+    }
+
 }

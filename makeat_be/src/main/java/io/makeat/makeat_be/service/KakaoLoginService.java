@@ -1,8 +1,6 @@
 package io.makeat.makeat_be.service;
 
-import io.makeat.makeat_be.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
