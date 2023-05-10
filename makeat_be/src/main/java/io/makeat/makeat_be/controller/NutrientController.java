@@ -20,7 +20,7 @@ public class NutrientController {
     private final NutrientService ns;
 
     /**
-     * 플러터로부터 이미지 수신 및 S3에 저장하고 플러터로 이미지 링크 반환
+     * 플러터로부터 음식 명, 음식 양 받아서 OpenAPI 통해 영양정보 반환
      * @param food
      * @return
      * @throws IOException
