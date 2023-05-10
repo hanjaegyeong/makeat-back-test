@@ -5,5 +5,6 @@ import lombok.Data;
 @Data
 public class FoodDto {
     private String foodName;
-    private float capacity;
+    private Float quentity;
+    private String quentityType;
 }
