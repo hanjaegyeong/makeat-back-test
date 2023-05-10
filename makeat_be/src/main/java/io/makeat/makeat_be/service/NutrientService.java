@@ -17,7 +17,7 @@ import java.net.URLEncoder;
 
 @Slf4j
 @Service
-public class NutritionService {
+public class NutrientService {
 
     public String getNutrient(String foodName, Float quentity, String quentityType) throws IOException, ParseException {
         String nutrinetInfo = "";
