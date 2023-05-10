@@ -19,6 +19,13 @@ public class NutrientController {
 
     private final NutrientService ns;
 
+    /**
+     * 플러터로부터 이미지 수신 및 S3에 저장하고 플러터로 이미지 링크 반환
+     * @param food
+     * @return
+     * @throws IOException
+     * @throws ParseException
+     */
     @GetMapping("/nutrientInfo")
     public String getNutrientInfo(@ModelAttribute FoodDto food) throws IOException, ParseException {
 
@@ -27,4 +34,6 @@ public class NutrientController {
         return nutrientInfo;
 
     }
+
+
 }
