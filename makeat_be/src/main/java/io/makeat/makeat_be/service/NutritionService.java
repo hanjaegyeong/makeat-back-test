@@ -19,7 +19,7 @@ import java.net.URLEncoder;
 @Service
 public class NutritionService {
 
-    public String getNutrient(String foodName) throws IOException, ParseException {
+    public String getNutrient(String foodName, Float quentity, String quentityType) throws IOException, ParseException {
         String nutrinetInfo = "";
 
         StringBuilder urlBuilder = new StringBuilder("http://apis.data.go.kr/1471000/FoodNtrIrdntInfoService1/getFoodNtrItdntList1"); /*URL*/
@@ -58,27 +58,42 @@ public class NutritionService {
 
         JSONArray items = (JSONArray)body.get("items");
 
-        for(int i = 0; i < items.size(); i++)
-        {
-            String items_name = "";
-            String once = "";
-            String tan = "";
-            String dan = "";
-            String zi = "";
-            String na = "";
-            String cal = "";
+//        for(int i = 0; i < items.size(); i++)
+//        {
 
-            JSONObject items_info = (JSONObject)items.get(i);
-            items_name += items_info.get("DESC_KOR") + " ";
-            once += items_info.get("SERVING_WT") + " ";
-            tan += items_info.get("NUTR_CONT2") + " ";
-            dan += items_info.get("NUTR_CONT3") + " ";
-            zi += items_info.get("NUTR_CONT4") + " ";
-            na += items_info.get("NUTR_CONT6") + " ";
-            cal += items_info.get("NUTR_CONT1") + " ";
+        String items_name = "";
+        Float once;
+        Float tan = null;
+        Float dan = null;
+        Float zi = null;
+        Float na = null;
+        Float cal = null;
 
-            nutrinetInfo = "식품 이름: " + items_name + "1회 제공량: " + once + "탄수화물: " + tan + "단백질: " + dan + "지방: " + zi + "나트륨: " + na + "칼로리: " + cal + "\n";
+        Float mulNum = null;
+
+
+
+        JSONObject items_info = (JSONObject)items.get(0);
+        once = Float.parseFloat((String) items_info.get("SERVING_WT"));
+
+
+        log.info(quentityType);
+
+        if (quentityType.equals("gram")){
+            mulNum = quentity / once;
+        } else if (quentityType.equals("serving")) {
+            mulNum = quentity;
         }
+
+        items_name = (String) items_info.get("DESC_KOR");
+        tan = Float.parseFloat((String) items_info.get("NUTR_CONT2")) * mulNum;
+        dan = Float.parseFloat((String) items_info.get("NUTR_CONT3")) * mulNum;
+        zi = Float.parseFloat((String) items_info.get("NUTR_CONT4")) * mulNum;
+        na = Float.parseFloat((String) items_info.get("NUTR_CONT6")) * mulNum;
+        cal = Float.parseFloat((String) items_info.get("NUTR_CONT1")) * mulNum;
+
+        nutrinetInfo = "식품 이름: " + items_name + "\n1회 제공량: " + once + "\n탄수화물: " + tan + "\n단백질: " + dan + "\n지방: " + zi + "\n나트륨: " + na + "\n칼로리: " + cal + "\n양: " + quentity + "\n양 타입: " + quentityType + "\n";
+//        }
         return nutrinetInfo;
     }
 }

@@ -18,10 +18,10 @@ public class NutritionController {
 
     private final NutritionService ns;
 
-    @GetMapping("/api/{foodName}")
-    public String getNutritionInfo(@PathVariable("foodName") String foodName) throws IOException, ParseException {
+    @GetMapping("/api/{foodName}/{quentity}/{quentityType}")
+    public String getNutritionInfo(@PathVariable("foodName") String foodName, @PathVariable("quentity") Float quentity, @PathVariable("quentityType") String quentityType) throws IOException, ParseException {
 
-        String nutrientInfo = ns.getNutrient(foodName);
+        String nutrientInfo = ns.getNutrient(foodName, quentity, quentityType);
 
         return nutrientInfo;
 
