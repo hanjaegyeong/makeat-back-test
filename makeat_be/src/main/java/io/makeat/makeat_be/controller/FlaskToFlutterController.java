@@ -25,14 +25,16 @@ public class FlaskToFlutterController {
     public ResponseEntity<?> sendToFlutter(@RequestBody int abc) {
         // 플러터로 값을 전송하는 코드
         String flutterUrl = "http://<flutter_ip>:<flutter_port>/receiveFromSpring";
-        // WebClient를 사용하여 플러터로 값을 전송합니다.
-        webClient.post()
+
+        // WebClient를 사용하여 플러터로 값을 전송하고 응답을 받습니다.
+        ResponseEntity<String> response = webClient.post()
                 .uri(flutterUrl)
                 .body(BodyInserters.fromValue(abc))
-                .retrieve()
-                .toBodilessEntity()
+                .exchange()
+                .flatMap(clientResponse -> clientResponse.toEntity(String.class))
                 .block();
 
-        return new ResponseEntity<>(HttpStatus.OK);
+        // 응답을 그대로 반환합니다.
+        return response;
     }
 }
