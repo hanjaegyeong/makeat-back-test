@@ -18,13 +18,13 @@ public class S3UploadController {
     /**
      * 플러터로부터 이미지 파일 body로 받아서 S3에 업로드하고 버켓 링크 반환하는 함수
      *
-     * @param file
+     * @param image
      * @return
      */
     @PostMapping("/upload")
-    public ResponseEntity<Object> uploadFileToS3(@RequestParam("file") MultipartFile file) {
+    public ResponseEntity<Object> uploadFileToS3(@RequestParam("file") MultipartFile image) {
 
-        ResponseEntity<Object> response = ss.uploadImage(file);
+        ResponseEntity<Object> response = ss.uploadImage(image);
         return response;
     }
 }

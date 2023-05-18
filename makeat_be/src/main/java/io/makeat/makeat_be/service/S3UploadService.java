@@ -36,8 +36,8 @@ public class S3UploadService {
     private String bucketName;
 
 
-    public ResponseEntity<Object> uploadImage(MultipartFile file) {
-        String fileName = file.getOriginalFilename();
+    public ResponseEntity<Object> uploadImage(MultipartFile image) {
+        String fileName = image.getOriginalFilename();
 
         // S3 클라이언트 객체 생성
         BasicAWSCredentials awsCredentials = new BasicAWSCredentials(accessKey, secretKey);
@@ -55,7 +55,7 @@ public class S3UploadService {
             ObjectMetadata metadata = new ObjectMetadata();
             metadata.setContentType("image/png");
 
-            PutObjectResult result = s3Client.putObject(new PutObjectRequest(bucketName, uniqueFileName, file.getInputStream(), metadata));
+            PutObjectResult result = s3Client.putObject(new PutObjectRequest(bucketName, uniqueFileName, image.getInputStream(), metadata));
 
             // 업로드한 파일의 S3 버킷 URL 반환
             String fileUrl = "https://" + bucketName + ".s3." + region + ".amazonaws.com/" + uniqueFileName;

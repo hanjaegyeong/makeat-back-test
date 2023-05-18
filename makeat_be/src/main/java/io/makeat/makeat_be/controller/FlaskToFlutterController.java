@@ -21,18 +21,18 @@ public class FlaskToFlutterController {
 
     /**
      * 플러터에서 요청받으면 플라스크에서 받은 영양소 json값 플러터로 전송하는 함수
-     * @param file
+     * @param image
      * @return nutrient json
      */
     @PostMapping(value = "/sendToFlutter", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> sendToFlutter(@RequestParam("file") MultipartFile file) {
+    public ResponseEntity<?> sendToFlutter(@RequestParam("file") MultipartFile image) {
         // 플러터로 값을 전송하는 코드
         String flutterUrl = "http://<flutter_ip>:5000/image ";
 
         // WebClient를 사용하여 플러터로 값을 전송하고 응답을 받습니다.
         ResponseEntity<String> nutrient = webClient.post()
                 .uri(flutterUrl)
-                .body(BodyInserters.fromValue(file))
+                .body(BodyInserters.fromValue(image))
                 .exchange()
                 .flatMap(clientResponse -> clientResponse.toEntity(String.class))
                 .block();
