@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:mariadb://localhost:3307/makeat
+    url: jdbc:mariadb://localhost:3306/makeat
     driver-class-name: org.mariadb.jdbc.Driver
     username: root
     password: 123
@@ -30,11 +30,11 @@ logging:
     org.hibernate.sql: debug
 
 aws:
-  access-key:
-  secret-key:
+  access-key: ${awsAccesskey}
+  secret-key: ${awsSecretkey}
   s3:
-    region:
-    bucket:
+    region: ${awsRegion}
+    bucket: ${awsBucket}
 
 #server:
 #  port: 8080
