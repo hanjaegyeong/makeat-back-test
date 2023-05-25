@@ -34,7 +34,7 @@ public class FlaskToFlutterController {
         ResponseEntity<Object> imageURL = ss.uploadImage(image);
 
         // 플러터로 값을 전송하는 코드
-        String flutterUrl = "http://3.35.9.94:5000/image ";
+        String flutterUrl = "http://3.35.9.94:5000/image";
 
         // WebClient를 사용하여 플러터로 url을 전송하고 응답을 받습니다.
         ResponseEntity<String> nutrient = webClient.post()
