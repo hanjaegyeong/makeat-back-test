@@ -22,7 +22,7 @@ public class S3UploadController {
      * @return
      */
     @PostMapping("/upload")
-    public ResponseEntity<Object> uploadFileToS3(@RequestParam("file") MultipartFile image) {
+    public ResponseEntity<Object> uploadFileToS3(@RequestParam("image") MultipartFile image) {
 
         ResponseEntity<Object> response = ss.uploadImage(image);
         return response;
