@@ -28,8 +28,8 @@ public class FlaskToFlutterController {
      * @param image
      * @return nutrient json
      */
-    @PostMapping(value = "/analized-nutrient-info", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> sendToFlutter(@RequestParam("image") MultipartFile image) {
+    @PostMapping(value = "/analized-nutrient-info")
+    public ResponseEntity<String> sendToFlutter(@RequestParam("image") MultipartFile image) {
 
         ResponseEntity<Object> imageURL = ss.uploadImage(image);
 
