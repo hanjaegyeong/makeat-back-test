@@ -3,6 +3,7 @@ package io.makeat.makeat_be.controller;
 import io.makeat.makeat_be.dto.NutrientDto;
 import io.makeat.makeat_be.service.S3UploadService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +18,7 @@ import org.springframework.web.reactive.function.BodyInserters;
 
 @RestController
 @RequiredArgsConstructor
+@Slf4j
 public class FlaskToFlutterController {
 
     private final WebClient webClient;
@@ -31,7 +33,9 @@ public class FlaskToFlutterController {
     @PostMapping(value = "/analized-nutrient-info")
     public ResponseEntity<String> sendToFlutter(@RequestParam("image") MultipartFile image) {
 
-        ResponseEntity<Object> imageURL = ss.uploadImage(image);
+        String imageURL = String.valueOf(ss.uploadImage(image));
+
+        log.info(imageURL);
 
         // 플러터로 값을 전송하는 코드
         String flutterUrl = "http://3.35.9.94:5000/image";
