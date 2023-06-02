@@ -7,6 +7,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -56,10 +58,16 @@ public class FlaskToFlutterController {
         // 플러터로 값을 전송하는 코드
         String flutterUrl = "http://3.35.9.94:5000/image";
 
-        // WebClient를 사용하여 플러터로 url을 전송하고 응답을 받습니다.
+
+        // body에 key-value형태로 전송
+        MultiValueMap<String, String> requestBody = new LinkedMultiValueMap<>();
+        requestBody.add("image", String.valueOf(imageURL));
+
+        // WebClient를 사용하여 플러터로 url을 전송하고 응답 받기
+
         ResponseEntity<String> nutrient = webClient.post()
                 .uri(flutterUrl)
-                .body(BodyInserters.fromValue(imageURL))
+                .body(BodyInserters.fromFormData(requestBody))
                 .exchange()
                 .flatMap(clientResponse -> clientResponse.toEntity(String.class))
                 .block();
