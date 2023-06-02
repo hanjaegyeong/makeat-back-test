@@ -16,6 +16,9 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.BodyInserters;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 @RestController
 @RequiredArgsConstructor
 @Slf4j
@@ -33,9 +36,22 @@ public class FlaskToFlutterController {
     @PostMapping(value = "/analized-nutrient-info")
     public ResponseEntity<String> sendToFlutter(@RequestParam("image") MultipartFile image) {
 
-        String imageURL = String.valueOf(ss.uploadImage(image));
+        ResponseEntity<Object> imageURL = ss.uploadImage(image);
 
-        log.info(imageURL);
+        Object body = imageURL.getBody(); // ResponseEntity의 body 가져오기
+
+        String responseString = (String) body;
+        // 정규표현식을 사용하여 원하는 URL 추출
+        String pattern = "(https?://\\S+\\.\\S+)";
+        Pattern urlPattern = Pattern.compile(pattern);
+        Matcher matcher = urlPattern.matcher(responseString);
+
+        if (matcher.find()) {
+            String imageUrl = matcher.group(1); // 추출한 이미지 URL
+            log.info(imageUrl);
+        } else {
+            log.info("이미지 URL을 찾을 수 없습니다.");
+        }
 
         // 플러터로 값을 전송하는 코드
         String flutterUrl = "http://3.35.9.94:5000/image";
